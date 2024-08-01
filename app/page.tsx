@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import microApp from "@micro-zoe/micro-app";
 import { Menu } from "@arco-design/web-react";
 import "@arco-design/web-react/dist/css/arco.css";
+import { useRecoilState } from "recoil";
+import { globalSharedState } from "@/atom";
 
 const MenuItem = Menu.Item;
 
@@ -25,6 +27,8 @@ const menus = {
 
 export default function Home() {
   const [activeMenu, setActiveMenu] = useState(menus[MenuEnum.micro_react]);
+
+  const globalShared = useRecoilState(globalSharedState);
 
   useEffect(() => {
     if (!microApp.hasInit) {
@@ -72,7 +76,12 @@ export default function Home() {
         ))}
       </Menu>
 
-      <micro-app name={activeMenu.name} url={activeMenu.entry} iframe />
+      <micro-app
+        name={activeMenu.name}
+        url={activeMenu.entry}
+        iframe
+        data={globalShared}
+      />
     </>
   );
 }
