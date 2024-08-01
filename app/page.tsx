@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import microApp from "@micro-zoe/micro-app";
-import { Menu } from "@arco-design/web-react";
+import { useState } from "react";
+import { Button, Menu } from "@arco-design/web-react";
 import "@arco-design/web-react/dist/css/arco.css";
+import { useMicroApp } from "@/micro-app/hooks/use-micro-app";
 import { useRecoilState } from "recoil";
-import { globalSharedState } from "@/atom";
+import { globalDataState } from "@/stores/atom";
 
 const MenuItem = Menu.Item;
 
@@ -26,46 +26,21 @@ const menus = {
 };
 
 export default function Home() {
+  useMicroApp();
+
   const [activeMenu, setActiveMenu] = useState(menus[MenuEnum.micro_react]);
-
-  const globalShared = useRecoilState(globalSharedState);
-
-  useEffect(() => {
-    if (!microApp.hasInit) {
-      microApp.start({
-        lifeCycles: {
-          created(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has been created.`
-            );
-          },
-          beforemount(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} is about to render.`
-            );
-          },
-          mounted(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has finished rendering.`
-            );
-          },
-          unmount(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has been unmounted.`
-            );
-          },
-          error(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} failed to load.`
-            );
-          },
-        },
-      });
-    }
-  }, []);
+  const [globalData, setGlobalData] = useRecoilState(globalDataState);
 
   return (
     <>
+      <Button
+        type="primary"
+        onClick={() =>
+          setGlobalData({ counter: Number(globalData.counter) + 1 })
+        }
+      >
+        Counter++
+      </Button>
       <Menu
         mode="horizontal"
         defaultSelectedKeys={[activeMenu.name]}
@@ -76,12 +51,7 @@ export default function Home() {
         ))}
       </Menu>
 
-      <micro-app
-        name={activeMenu.name}
-        url={activeMenu.entry}
-        iframe
-        data={globalShared}
-      />
+      <micro-app name={activeMenu.name} url={activeMenu.entry} iframe />
     </>
   );
 }
