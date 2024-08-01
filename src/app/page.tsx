@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Button, Menu } from "@arco-design/web-react";
 import "@arco-design/web-react/dist/css/arco.css";
-import { useMicroApp } from "@/micro-app/hooks/use-micro-app";
+import { useMicroApp } from "@/src/micro-app/hooks/use-micro-app";
 import { useRecoilState } from "recoil";
-import { globalDataState } from "@/stores/atom";
+import { globalDataState } from "@/src/stores/atom";
 
 const MenuItem = Menu.Item;
 

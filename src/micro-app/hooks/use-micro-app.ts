@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { globalDataState } from "@/stores/atom";
+import { globalDataState } from "@/src/stores/atom";
 import microApp from "@micro-zoe/micro-app";
 
 export const useMicroApp = () => {

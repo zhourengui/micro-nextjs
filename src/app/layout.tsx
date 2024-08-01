@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { RecoildContextProvider } from "@/micro-app/components/recoid-context-provider";
+import { RecoildContextProvider } from "@/src/micro-app/components/recoid-context-provider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
