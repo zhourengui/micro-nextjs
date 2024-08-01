@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.63.1",
+    "@micro-zoe/micro-app": "^1.0.0-rc.6",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "@micro-zoe/micro-app": "^1.0.0-rc.6"
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@types/node": "^20",

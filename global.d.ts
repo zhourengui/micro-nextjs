@@ -7,11 +7,6 @@ declare global {
         name: string;
         url: string;
         iframe?: boolean;
-        onCreated?: VoidFunction;
-        onBeforemount?: VoidFunction;
-        onMounted?: VoidFunction;
-        onUnmount?: VoidFunction;
-        onError?: VoidFunction;
       };
     }
   }
