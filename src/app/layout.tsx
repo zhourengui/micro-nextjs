@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { RecoildContextProvider } from "@/src/micro-app/components/recoid-context-provider";
 import "./globals.css";
+import { MicroAppContextProvider } from "@/src//micro-app/components/micro-app-context-provider";
+import { RecoilContextProvider } from "@/src/recoil/recoil-context-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <RecoildContextProvider>{children}</RecoildContextProvider>
-      </body>
-    </html>
+    <RecoilContextProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <MicroAppContextProvider>{children}</MicroAppContextProvider>
+        </body>
+      </html>
+    </RecoilContextProvider>
   );
 }

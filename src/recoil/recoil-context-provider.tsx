@@ -7,7 +7,7 @@ interface RecoidContextProviderProps {
   children: React.ReactNode;
 }
 
-export const RecoildContextProvider: React.FC<RecoidContextProviderProps> = (
+export const RecoilContextProvider: React.FC<RecoidContextProviderProps> = (
   props
 ) => {
   return <RecoilRoot>{props.children}</RecoilRoot>;

@@ -1,46 +1,38 @@
-import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { globalDataState } from "@/src/stores/atom";
+"use client";
+
 import microApp from "@micro-zoe/micro-app";
+import { MicroAppCommunicationChannel } from "@/generated/proto/element_pb";
+
+interface MicroAppPayload {
+  channel: MicroAppCommunicationChannel;
+  payload?: Record<PropertyKey, unknown>;
+}
 
 export const useMicroApp = () => {
-  const globalData = useRecoilValue(globalDataState);
+  function forceSetData(
+    appName: string,
+    payload: MicroAppPayload,
+    nextStep?: CallableFunction
+  ) {
+    return microApp.forceSetData(
+      appName,
+      payload as unknown as Record<PropertyKey, unknown>,
+      nextStep
+    );
+  }
 
-  useEffect(() => {
-    if (!microApp.hasInit) {
-      microApp.start({
-        lifeCycles: {
-          created(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has been created.`
-            );
-          },
-          beforemount(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} is about to render.`
-            );
-          },
-          mounted(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has finished rendering.`
-            );
-          },
-          unmount(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} has been unmounted.`
-            );
-          },
-          error(_, appName) {
-            console.log(
-              `[micro-app] The child application ${appName} failed to load.`
-            );
-          },
-        },
-      });
-    }
-  }, []);
+  function forceSetGlobalData(
+    payload: MicroAppPayload,
+    nextStep?: CallableFunction
+  ) {
+    return microApp.forceSetGlobalData(
+      payload as unknown as Record<PropertyKey, unknown>,
+      nextStep
+    );
+  }
 
-  useEffect(() => {
-    microApp.forceSetGlobalData(globalData);
-  }, [globalData]);
+  return {
+    forceSetData,
+    forceSetGlobalData,
+  };
 };

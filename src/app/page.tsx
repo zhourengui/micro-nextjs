@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { Button, Menu } from "@arco-design/web-react";
 import "@arco-design/web-react/dist/css/arco.css";
-import { useMicroApp } from "@/src/micro-app/hooks/use-micro-app";
-import { useRecoilState } from "recoil";
-import { globalDataState } from "@/src/stores/atom";
+import { useMicroApp } from "../micro-app";
+import { MicroAppCommunicationChannel } from "@/generated/proto/element_pb";
 
 const MenuItem = Menu.Item;
 
@@ -26,21 +25,26 @@ const menus = {
 };
 
 export default function Home() {
-  useMicroApp();
-
   const [activeMenu, setActiveMenu] = useState(menus[MenuEnum.micro_react]);
-  const [globalData, setGlobalData] = useRecoilState(globalDataState);
+  const { forceSetData } = useMicroApp();
+
+  const sendDataToSubApp = () => {
+    forceSetData(activeMenu.name, {
+      channel:
+        MicroAppCommunicationChannel.MICRO_APP_COMMUNICATION_CHANNEL_UNSPECIFIED,
+      payload: {
+        random: Math.random(),
+      },
+    });
+  };
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={() =>
-          setGlobalData({ counter: Number(globalData.counter) + 1 })
-        }
-      >
-        Counter++
-      </Button>
+      <div className="flex flex-col items-center gap-2">
+        <Button type="primary" onClick={sendDataToSubApp}>
+          主应用向子应用发送数据
+        </Button>
+      </div>
       <Menu
         mode="horizontal"
         defaultSelectedKeys={[activeMenu.name]}
