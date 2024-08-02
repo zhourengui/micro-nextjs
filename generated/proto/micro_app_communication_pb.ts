@@ -5,15 +5,15 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as dependency_1 from "./element_pb";
 import * as pb_1 from "google-protobuf";
-export class MicroAppCommunicationPayload extends pb_1.Message {
+export class MicroAppCommunicationGlobalDataPayload extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {}) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") { }
     }
-    static fromObject(data: {}): MicroAppCommunicationPayload {
-        const message = new MicroAppCommunicationPayload({});
+    static fromObject(data: {}): MicroAppCommunicationGlobalDataPayload {
+        const message = new MicroAppCommunicationGlobalDataPayload({});
         return message;
     }
     toObject() {
@@ -27,8 +27,8 @@ export class MicroAppCommunicationPayload extends pb_1.Message {
         if (!w)
             return writer.getResultBuffer();
     }
-    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MicroAppCommunicationPayload {
-        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MicroAppCommunicationPayload();
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MicroAppCommunicationGlobalDataPayload {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MicroAppCommunicationGlobalDataPayload();
         while (reader.nextField()) {
             if (reader.isEndGroup())
                 break;
@@ -41,65 +41,75 @@ export class MicroAppCommunicationPayload extends pb_1.Message {
     serializeBinary(): Uint8Array {
         return this.serialize();
     }
-    static deserializeBinary(bytes: Uint8Array): MicroAppCommunicationPayload {
-        return MicroAppCommunicationPayload.deserialize(bytes);
+    static deserializeBinary(bytes: Uint8Array): MicroAppCommunicationGlobalDataPayload {
+        return MicroAppCommunicationGlobalDataPayload.deserialize(bytes);
     }
 }
 export class MicroAppCommunication extends pb_1.Message {
-    #one_of_decls: number[][] = [];
-    constructor(data?: any[] | {
+    #one_of_decls: number[][] = [[2]];
+    constructor(data?: any[] | ({
         channel?: dependency_1.MicroAppCommunicationChannel;
-        payload?: MicroAppCommunicationPayload;
-    }) {
+    } & (({
+        global_data_payload?: MicroAppCommunicationGlobalDataPayload;
+    })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") {
             if ("channel" in data && data.channel != undefined) {
                 this.channel = data.channel;
             }
-            if ("payload" in data && data.payload != undefined) {
-                this.payload = data.payload;
+            if ("global_data_payload" in data && data.global_data_payload != undefined) {
+                this.global_data_payload = data.global_data_payload;
             }
         }
     }
     get channel() {
-        return pb_1.Message.getFieldWithDefault(this, 1, dependency_1.MicroAppCommunicationChannel.MICRO_APP_COMMUNICATION_CHANNEL_UNSPECIFIED) as dependency_1.MicroAppCommunicationChannel;
+        return pb_1.Message.getFieldWithDefault(this, 1, dependency_1.MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL) as dependency_1.MicroAppCommunicationChannel;
     }
     set channel(value: dependency_1.MicroAppCommunicationChannel) {
         pb_1.Message.setField(this, 1, value);
     }
-    get payload() {
-        return pb_1.Message.getWrapperField(this, MicroAppCommunicationPayload, 2) as MicroAppCommunicationPayload;
+    get global_data_payload() {
+        return pb_1.Message.getWrapperField(this, MicroAppCommunicationGlobalDataPayload, 2) as MicroAppCommunicationGlobalDataPayload;
     }
-    set payload(value: MicroAppCommunicationPayload) {
-        pb_1.Message.setWrapperField(this, 2, value);
+    set global_data_payload(value: MicroAppCommunicationGlobalDataPayload) {
+        pb_1.Message.setOneofWrapperField(this, 2, this.#one_of_decls[0], value);
     }
-    get has_payload() {
+    get has_global_data_payload() {
         return pb_1.Message.getField(this, 2) != null;
+    }
+    get payload_type() {
+        const cases: {
+            [index: number]: "none" | "global_data_payload";
+        } = {
+            0: "none",
+            2: "global_data_payload"
+        };
+        return cases[pb_1.Message.computeOneofCase(this, [2])];
     }
     static fromObject(data: {
         channel?: dependency_1.MicroAppCommunicationChannel;
-        payload?: ReturnType<typeof MicroAppCommunicationPayload.prototype.toObject>;
+        global_data_payload?: ReturnType<typeof MicroAppCommunicationGlobalDataPayload.prototype.toObject>;
     }): MicroAppCommunication {
         const message = new MicroAppCommunication({});
         if (data.channel != null) {
             message.channel = data.channel;
         }
-        if (data.payload != null) {
-            message.payload = MicroAppCommunicationPayload.fromObject(data.payload);
+        if (data.global_data_payload != null) {
+            message.global_data_payload = MicroAppCommunicationGlobalDataPayload.fromObject(data.global_data_payload);
         }
         return message;
     }
     toObject() {
         const data: {
             channel?: dependency_1.MicroAppCommunicationChannel;
-            payload?: ReturnType<typeof MicroAppCommunicationPayload.prototype.toObject>;
+            global_data_payload?: ReturnType<typeof MicroAppCommunicationGlobalDataPayload.prototype.toObject>;
         } = {};
         if (this.channel != null) {
             data.channel = this.channel;
         }
-        if (this.payload != null) {
-            data.payload = this.payload.toObject();
+        if (this.global_data_payload != null) {
+            data.global_data_payload = this.global_data_payload.toObject();
         }
         return data;
     }
@@ -107,10 +117,10 @@ export class MicroAppCommunication extends pb_1.Message {
     serialize(w: pb_1.BinaryWriter): void;
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
-        if (this.channel != dependency_1.MicroAppCommunicationChannel.MICRO_APP_COMMUNICATION_CHANNEL_UNSPECIFIED)
+        if (this.channel != dependency_1.MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL)
             writer.writeEnum(1, this.channel);
-        if (this.has_payload)
-            writer.writeMessage(2, this.payload, () => this.payload.serialize(writer));
+        if (this.has_global_data_payload)
+            writer.writeMessage(2, this.global_data_payload, () => this.global_data_payload.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -124,7 +134,7 @@ export class MicroAppCommunication extends pb_1.Message {
                     message.channel = reader.readEnum();
                     break;
                 case 2:
-                    reader.readMessage(message.payload, () => message.payload = MicroAppCommunicationPayload.deserialize(reader));
+                    reader.readMessage(message.global_data_payload, () => message.global_data_payload = MicroAppCommunicationGlobalDataPayload.deserialize(reader));
                     break;
                 default: reader.skipField();
             }

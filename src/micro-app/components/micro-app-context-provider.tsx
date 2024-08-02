@@ -55,8 +55,8 @@ export const MicroAppContextProvider: React.FC<MicroAppContextProviderProps> = (
     () =>
       forceSetGlobalData({
         channel:
-          MicroAppCommunicationChannel.MICRO_APP_COMMUNICATION_CHANNEL_GLOBAL_DATA,
-        payload: {},
+          MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL,
+        payload: { ...globalData },
       }),
     [globalData]
   );

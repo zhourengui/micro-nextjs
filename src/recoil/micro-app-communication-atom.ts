@@ -20,7 +20,7 @@ export const globalDataState = selector({
   key: "globalDataState",
   get: ({ get }) => {
     return get(microAppCommunicationState)[
-      MicroAppCommunicationChannel.MICRO_APP_COMMUNICATION_CHANNEL_GLOBAL_DATA
+      MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL
     ];
   },
 });

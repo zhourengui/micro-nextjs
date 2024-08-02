@@ -5,6 +5,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export enum MicroAppCommunicationChannel {
-    MICRO_APP_COMMUNICATION_CHANNEL_UNSPECIFIED = 0,
-    MICRO_APP_COMMUNICATION_CHANNEL_GLOBAL_DATA = 1
+    MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL = 0,
+    MAIN_REACT_CHANNEL1 = 1,
+    MAIN_VUE_CHANNEL1 = 2
 }
