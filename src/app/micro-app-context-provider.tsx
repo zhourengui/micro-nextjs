@@ -3,9 +3,10 @@
 import { useRecoilValue } from "recoil";
 import React, { useEffect } from "react";
 import microApp from "@micro-zoe/micro-app";
+import { MicroAppNameType } from "@/generated/proto/element_pb";
+import { globalDataState } from "../stores/global-data-atom";
 import { useMicroApp } from "../hooks";
-import { MicroAppCommunicationChannel } from "@/generated/proto/element_pb";
-import { globalDataState } from "@/src/recoil/micro-app-communication-atom";
+import { SingleDataPayload } from "../interfaces";
 
 interface MicroAppContextProviderProps {
   children: React.ReactNode;
@@ -51,15 +52,25 @@ export const MicroAppContextProvider: React.FC<MicroAppContextProviderProps> = (
     }
   }, []);
 
-  useEffect(
-    () =>
-      forceSetGlobalData({
-        channel:
-          MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL,
-        payload: { ...globalData },
-      }),
-    [globalData]
-  );
+  useEffect(() => forceSetGlobalData(globalData), [globalData]);
+
+  useEffect(() => {
+    const keys = Object.keys(MicroAppNameType);
+
+    microApp.addDataListener(
+      MicroAppNameType[MicroAppNameType.MICRO_VUE],
+      (payload: SingleDataPayload) => {
+        alert(`[${payload.appName}]: ${JSON.stringify(payload.payload)}`);
+      }
+    );
+
+    microApp.addDataListener(
+      MicroAppNameType[MicroAppNameType.MICRO_REACT],
+      (payload: SingleDataPayload) => {
+        alert(`[${payload.appName}]: ${JSON.stringify(payload.payload)}`);
+      }
+    );
+  }, []);
 
   return props.children;
 };

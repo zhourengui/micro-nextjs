@@ -1,17 +1,12 @@
 "use client";
 
 import microApp from "@micro-zoe/micro-app";
-import { MicroAppCommunicationChannel } from "@/generated/proto/element_pb";
-
-interface MicroAppPayload {
-  channel: MicroAppCommunicationChannel;
-  payload?: Record<PropertyKey, unknown>;
-}
+import { GlobalDataPayload, SingleDataPayload } from "../interfaces";
 
 export const useMicroApp = () => {
   function forceSetData(
     appName: string,
-    payload: MicroAppPayload,
+    payload: SingleDataPayload,
     nextStep?: CallableFunction
   ) {
     return microApp.forceSetData(
@@ -22,7 +17,7 @@ export const useMicroApp = () => {
   }
 
   function forceSetGlobalData(
-    payload: MicroAppPayload,
+    payload: GlobalDataPayload,
     nextStep?: CallableFunction
   ) {
     return microApp.forceSetGlobalData(

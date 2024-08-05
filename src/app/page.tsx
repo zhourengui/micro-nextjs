@@ -1,43 +1,28 @@
 "use client";
 
 import { Button } from "@arco-design/web-react";
-import "@arco-design/web-react/dist/css/arco.css";
-import { useMicroApp } from "../micro-app";
-import { MicroAppCommunicationChannel } from "@/generated/proto/element_pb";
+import {
+  MicroAppCommunicationChannel,
+  MicroAppNameType,
+} from "@/generated/proto/element_pb";
 import { useRecoilState } from "recoil";
-import { microAppCommunicationState } from "../recoil/micro-app-communication-atom";
-
-enum MenuEnum {
-  micro_react = "micro_react",
-  micro_vue = "micro_vue",
-}
-
-const menus = {
-  [MenuEnum.micro_react]: {
-    name: MenuEnum.micro_react,
-    entry: "http://localhost:5173",
-  },
-  [MenuEnum.micro_vue]: {
-    name: MenuEnum.micro_vue,
-    entry: "http://localhost:5174",
-  },
-};
+import { useMicroApp } from "../hooks";
+import "@arco-design/web-react/dist/css/arco.css";
+import { globalDataState } from "../stores/global-data-atom";
+import { microAppCofnigs } from "./micro-app-configs";
 
 export default function Home() {
   const { forceSetData } = useMicroApp();
-  const [microAppCommunication, setMicroAppCommunication] = useRecoilState(
-    microAppCommunicationState
-  );
-
+  const [_, setGlobalData] = useRecoilState(globalDataState);
   const sendDataToSubApp = () => {
-    forceSetData(menus[MenuEnum.micro_react].name, {
+    forceSetData(MicroAppNameType[MicroAppNameType.MICRO_REACT], {
       channel: MicroAppCommunicationChannel.MAIN_REACT_CHANNEL1,
       payload: {
         random: Math.random(),
       },
     });
 
-    forceSetData(menus[MenuEnum.micro_vue].name, {
+    forceSetData(MicroAppNameType[MicroAppNameType.MICRO_VUE], {
       channel: MicroAppCommunicationChannel.MAIN_VUE_CHANNEL1,
       payload: {
         random: Math.random(),
@@ -46,16 +31,7 @@ export default function Home() {
   };
 
   const changeGlobalData = () => {
-    setMicroAppCommunication({
-      ...microAppCommunication,
-      [MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL]: {
-        channel:
-          MicroAppCommunicationChannel.MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL,
-        payload: {
-          random: Math.random(),
-        },
-      },
-    });
+    setGlobalData({ random: Math.random() });
   };
 
   return (
@@ -70,13 +46,14 @@ export default function Home() {
       </div>
       <div className="flex justify-center mt-10">
         <micro-app
-          name={menus[MenuEnum.micro_react].name}
-          url={menus[MenuEnum.micro_react].entry}
+          name={MicroAppNameType[MicroAppNameType.MICRO_REACT]}
+          url={microAppCofnigs[MicroAppNameType.MICRO_REACT].entry}
           iframe
         />
+
         <micro-app
-          name={menus[MenuEnum.micro_vue].name}
-          url={menus[MenuEnum.micro_vue].entry}
+          name={MicroAppNameType[MicroAppNameType.MICRO_VUE]}
+          url={microAppCofnigs[MicroAppNameType.MICRO_VUE].entry}
           iframe
         />
       </div>

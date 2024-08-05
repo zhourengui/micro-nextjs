@@ -7,5 +7,11 @@ import * as pb_1 from "google-protobuf";
 export enum MicroAppCommunicationChannel {
     MAIN_ALL_GLOBAL_DATA_CHANGE_CHANNEL = 0,
     MAIN_REACT_CHANNEL1 = 1,
-    MAIN_VUE_CHANNEL1 = 2
+    MAIN_VUE_CHANNEL1 = 2,
+    VUE_MAIN_CHANNEL1 = 3,
+    REACT_MAIN_CHANNEL1 = 4
+}
+export enum MicroAppNameType {
+    MICRO_REACT = 0,
+    MICRO_VUE = 1
 }
