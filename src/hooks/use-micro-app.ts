@@ -1,12 +1,13 @@
 "use client";
 
+import { MicroAppGlobalDataPayload } from "@/generated/proto/micro_app_global_data_payload";
+import { MicroAppSinigleDataPayload } from "@/generated/proto/micro_app_single_data_payload";
 import microApp from "@micro-zoe/micro-app";
-import { GlobalDataPayload, SingleDataPayload } from "../interfaces";
 
 export const useMicroApp = () => {
   function forceSetData(
     appName: string,
-    payload: SingleDataPayload,
+    payload: MicroAppSinigleDataPayload,
     nextStep?: CallableFunction
   ) {
     return microApp.forceSetData(
@@ -17,7 +18,7 @@ export const useMicroApp = () => {
   }
 
   function forceSetGlobalData(
-    payload: GlobalDataPayload,
+    payload: MicroAppGlobalDataPayload,
     nextStep?: CallableFunction
   ) {
     return microApp.forceSetGlobalData(

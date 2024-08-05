@@ -3,10 +3,10 @@
 import { useRecoilValue } from "recoil";
 import React, { useEffect } from "react";
 import microApp from "@micro-zoe/micro-app";
-import { MicroAppNameType } from "@/generated/proto/element_pb";
+import { MicroAppNameType } from "@/generated/proto/element";
 import { globalDataState } from "../stores/global-data-atom";
 import { useMicroApp } from "../hooks";
-import { SingleDataPayload } from "../interfaces";
+import { MicroAppSinigleDataPayload } from "@/generated/proto/micro_app_single_data_payload";
 
 interface MicroAppContextProviderProps {
   children: React.ReactNode;
@@ -21,6 +21,9 @@ export const MicroAppContextProvider: React.FC<MicroAppContextProviderProps> = (
   useEffect(() => {
     if (!microApp.hasInit) {
       microApp.start({
+        "disable-memory-router": true,
+        iframe: true,
+        ssr: true,
         lifeCycles: {
           created(_, appName) {
             console.log(
@@ -59,14 +62,14 @@ export const MicroAppContextProvider: React.FC<MicroAppContextProviderProps> = (
 
     microApp.addDataListener(
       MicroAppNameType[MicroAppNameType.MICRO_VUE],
-      (payload: SingleDataPayload) => {
+      (payload: MicroAppSinigleDataPayload) => {
         alert(`[${payload.appName}]: ${JSON.stringify(payload.payload)}`);
       }
     );
 
     microApp.addDataListener(
       MicroAppNameType[MicroAppNameType.MICRO_REACT],
-      (payload: SingleDataPayload) => {
+      (payload: MicroAppSinigleDataPayload) => {
         alert(`[${payload.appName}]: ${JSON.stringify(payload.payload)}`);
       }
     );

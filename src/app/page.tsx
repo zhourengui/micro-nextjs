@@ -4,7 +4,7 @@ import { Button } from "@arco-design/web-react";
 import {
   MicroAppCommunicationChannel,
   MicroAppNameType,
-} from "@/generated/proto/element_pb";
+} from "@/generated/proto/element";
 import { useRecoilState } from "recoil";
 import { useMicroApp } from "../hooks";
 import "@arco-design/web-react/dist/css/arco.css";
@@ -17,16 +17,12 @@ export default function Home() {
   const sendDataToSubApp = () => {
     forceSetData(MicroAppNameType[MicroAppNameType.MICRO_REACT], {
       channel: MicroAppCommunicationChannel.MAIN_REACT_CHANNEL1,
-      payload: {
-        random: Math.random(),
-      },
+      payload: {},
     });
 
     forceSetData(MicroAppNameType[MicroAppNameType.MICRO_VUE], {
       channel: MicroAppCommunicationChannel.MAIN_VUE_CHANNEL1,
-      payload: {
-        random: Math.random(),
-      },
+      payload: {},
     });
   };
 
@@ -48,13 +44,11 @@ export default function Home() {
         <micro-app
           name={MicroAppNameType[MicroAppNameType.MICRO_REACT]}
           url={microAppCofnigs[MicroAppNameType.MICRO_REACT].entry}
-          iframe
         />
 
         <micro-app
           name={MicroAppNameType[MicroAppNameType.MICRO_VUE]}
           url={microAppCofnigs[MicroAppNameType.MICRO_VUE].entry}
-          iframe
         />
       </div>
     </>

@@ -1,4 +1,4 @@
-import { MicroAppNameType } from "@/generated/proto/element_pb";
+import { MicroAppNameType } from "@/generated/proto/element";
 
 export const microAppCofnigs = {
   [MicroAppNameType.MICRO_REACT]: {
